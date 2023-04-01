@@ -31,7 +31,7 @@ def create_dataset(args):
                 a += flip_result
                 k = i*args.names_in_sample + j
                 text = "flips" if flip_result == 1 else "does not flip"
-                q += '{} {} the coin. '.format(name_list[k], text)
+                q += f'{name_list[k]} {text} the coin. '
             q += 'Is the coin still heads up? Note that "flip" here means "reverse".'
             a = 'yes' if (a % 2) == 1 else 'no'
         elif args.dataset == 'last_letters':
@@ -53,12 +53,12 @@ def create_dataset(args):
         dic["question"] = q
         dic["answer"] = a
         sample_list.append(dic)
-        
+
     # save data into file as json format ...
     json_data =  OrderedDict()
     json_data["examples"] = sample_list
     #print(json.dumps(json_data, indent=4))
-    with open(args.dataset + '.json', 'w') as f:
+    with open(f'{args.dataset}.json', 'w') as f:
         json.dump(json_data, f, indent=4)
     
 def main():
@@ -75,8 +75,7 @@ def parse_arguments():
     parser.add_argument("--dataset", type=str, default="coin_flip", choices=["coin_flip", "last_letters"], help="")
     parser.add_argument("--dataset_size", type=int, default=10, help="")
     parser.add_argument("--names_in_sample", type=int, default=4, help="")
-    args = parser.parse_args()
-    return args
+    return parser.parse_args()
 
 if __name__ == "__main__":
     main()
